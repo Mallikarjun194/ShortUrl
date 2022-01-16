@@ -1,5 +1,5 @@
 # ShortUrl
-Generates the shorturl for given url.
+Generates a shorturl for given url.
 
 Steps:
 
