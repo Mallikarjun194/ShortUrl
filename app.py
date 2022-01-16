@@ -18,7 +18,11 @@ def get_short_url():
 
 @app.route('/create', methods=['POST', 'PUT'])
 def create_record():
-    pass
+    record = json.loads(request.data)
+    rand_alpha_num = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+    # Creating a shorturl like myapp.com/<5-digit Alphanumeric>
+    short_url = 'myapp.com/' + rand_alpha_num
+
 
 
 @app.route('/delete', methods=['DELETE'])
