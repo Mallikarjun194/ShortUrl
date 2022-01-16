@@ -43,11 +43,20 @@ def create_record():
                 f.write(json.dumps(file, indent=2))
             return jsonify(file), 201
     else:
-        if record['url'] in url.keys():
-            url[record['url']] = short_url
-            return jsonify(url)
-        else:
-            return jsonify({'Error_msg': "url not present, Please do a POST call"})
+        with open('shorturl.json', 'r') as f:
+            data = f.read()
+            if not data:
+                file = dict()
+                file[record['url']] = short_url
+            else:
+                file = json.loads(data)
+                if record['url'] in file.keys():
+                    file[record['url']] = short_url
+                else:
+                    return jsonify({'Error_msg': "url not present, Please do a POST call"})
+            with open('shorturl.json', 'w') as f:
+                f.write(json.dumps(file, indent=2))
+            return jsonify(file), 201
 
 
 @app.route('/delete', methods=['DELETE'])
