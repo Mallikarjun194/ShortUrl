@@ -4,7 +4,17 @@ import json
 from flask import Flask, jsonify, request
 import random, string
 app = Flask(__name__)
-url = {}
+
+
+def read_file():
+    with open('shorturl.json', 'r') as f:
+        data = f.read()
+        return data
+
+
+def write_file(data):
+    with open('shorturl.json', 'w') as f:
+        f.write(json.dumps(data, indent=2))
 
 
 @app.route('/get', methods=['GET'])
