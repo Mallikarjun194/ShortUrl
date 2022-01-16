@@ -11,7 +11,6 @@ Steps:
    
     1) GET API:
        http://127.0.0.1:8000/get?url=www.Google.com
-       
        Sample-output: {"www.Google.com": "myapp.com/Ti4d2"}
        key will be original url and value will be shortened url.
        
