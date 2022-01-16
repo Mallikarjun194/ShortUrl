@@ -9,11 +9,16 @@ url = {}
 
 @app.route('/get', methods=['GET'])
 def get_short_url():
-    record = json.loads(request.data)
-    if record['url'] in url.keys():
-        return jsonify({record['url']: url[record['url']]})
-    else:
-        return jsonify({"Error_msg": "url not found, Please do a POST call"})
+    with open('shorturl.json', 'r') as f:
+        data = f.read()
+        file = json.loads(data)
+        record = json.loads(request.data)
+        for rec in file:
+            if rec['url'] == record['url']:
+                return jsonify({record['url']: rec[record['url']]})
+
+        else:
+            return jsonify({"Error_msg": "url not found, Please do a POST call"})
 
 
 @app.route('/create', methods=['POST', 'PUT'])
