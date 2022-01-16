@@ -28,11 +28,20 @@ def create_record():
     # Creating a shorturl like myapp.com/<5-digit Alphanumeric>
     short_url = 'myapp.com/' + rand_alpha_num
     if request.method == 'POST':
-        if record['url'] in url.keys():
-            return jsonify({'Error_msg': "url already present"})
-        else:
-            url[record['url']] = short_url
-            return jsonify(url), 201
+        with open('shorturl.json', 'r') as f:
+            data = f.read()
+            if not data:
+                file = dict()
+                file[record['url']] = short_url
+            else:
+                file = json.loads(data)
+                if record['url'] in file.keys():
+                    return jsonify({'Error_msg': "url already present"})
+                else:
+                    file[record['url']] = short_url
+            with open('shorturl.json', 'w') as f:
+                f.write(json.dumps(file, indent=2))
+            return jsonify(file), 201
     else:
         if record['url'] in url.keys():
             url[record['url']] = short_url
