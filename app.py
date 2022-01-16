@@ -38,7 +38,12 @@ def create_record():
 
 @app.route('/delete', methods=['DELETE'])
 def delete_record():
-    pass
+    record = json.loads(request.data)
+    if record['url'] in url.keys():
+        url.pop(record['url'])
+        return jsonify({"Success:": "url deleted successfully"})
+    else:
+        return jsonify({"Error_msg": "Requested url not found"})
 
 
 app.run()
