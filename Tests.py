@@ -7,6 +7,7 @@ class APITest(unittest.TestCase):
     POST_CALL = "{}/create".format(API_URL)
     PAYLOAD = {"url": "www.musicband.com"}
     UPDATE_call = "{}/update".format(API_URL)
+    DELETE_call = "{}/update".format(API_URL)
 
     def test_1_get_shorten_url_by_original_url(self):
         """
@@ -52,6 +53,14 @@ class APITest(unittest.TestCase):
         self.assertEqual(r1.status_code, 200)
         list2 = r1.json()['Success'].split() # Fetching the updated shorten url
         assert list1[-1] != list2[-1], 'Shorten url not updated' # Both should be different after updating
+
+    def test_6_update_shorten_url_negative(self):
+        """
+        Test to update url which is empty
+        """
+        r = requests.put(APITest.UPDATE_call, json={"url": ""})
+        msg = "url not present, Please do a POST call"
+        self.assertEqual(r.json()['Error_msg'], msg)
 
 
 
