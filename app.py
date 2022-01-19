@@ -60,7 +60,7 @@ def update_method():
     else:
         return jsonify({"Error_msg": "url not present, Please do a POST call"})
     write_file(data)
-    return jsonify({"Success": "Your updated short url is " + data[record['url']]}), 201
+    return jsonify({"Success": "Your updated short url is " + data[record['url']]}), 200
 
 
 @app.route('/delete', methods=['DELETE'])
@@ -73,7 +73,7 @@ def delete_record():
     else:
         return jsonify({"Error_msg": "url not found, Please do a POST call"})
     write_file(data)
-    return jsonify({"Success:": "url deleted successfully "+ record['url']})
+    return jsonify({"Success:": "url deleted successfully "+record['url']}), 200
 
 
 if not path.exists("shorturl.json"):

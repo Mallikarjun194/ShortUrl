@@ -6,6 +6,7 @@ class APITest(unittest.TestCase):
     GET_CALL_ENDPOINT_N = "{}/get?url=www.Amazon123.com".format(API_URL)  # N stands for -ve test case
     POST_CALL = "{}/create".format(API_URL)
     PAYLOAD = {"url": "www.musicband.com"}
+    UPDATE_call = "{}/update".format(API_URL)
 
     def test_1_get_shorten_url_by_original_url(self):
         """
@@ -38,6 +39,21 @@ class APITest(unittest.TestCase):
         list = r.json()['Error_msg'].split()
         msg = "url already shortened {}".format(list[-1])
         self.assertEqual(r.json()['Error_msg'], msg)
+
+    def test_5_update_shorten_url(self):
+        """
+        Test to update the shorten url and validate the status code and shorten_url.
+        """
+        api = "{}/get?{}".format(APITest.API_URL, "url=www.Google.com")
+        r = requests.get(api)
+        self.assertEqual(r.status_code, 200)
+        list1 = r.json()['www.Google.com'].split() # Fetching the old shorten url
+        r1 = requests.put(APITest.UPDATE_call, json={"url": "www.Google.com"})
+        self.assertEqual(r1.status_code, 200)
+        list2 = r1.json()['Success'].split() # Fetching the updated shorten url
+        assert list1[-1] != list2[-1], 'Shorten url not updated' # Both should be different after updating
+
+
 
 
 
